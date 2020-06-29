@@ -1,0 +1,7 @@
+--- Abusing Dash ---
+
+This repo contains some fun projects on how to abuse dash and plotly elements.
+
+-- cockpit.py --
+- Simulating a cockpit with go.Indicator
+- TODO: align gas and break next to each other
