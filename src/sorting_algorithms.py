@@ -3,9 +3,11 @@ import dash_core_components as dcc
 import dash_html_components as html
 import plotly.graph_objs as go
 import numpy
+import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output, State
 
-external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+
+external_stylesheets = ['./assets/stlesheet.css', './assets/bootstrap.css']
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
@@ -17,54 +19,46 @@ fig = go.Figure(data=[
     go.Bar(x=x_values, y=y_values, marker={'color': 'crimson'})
 ])
 app.layout = html.Div([
-    html.P(),
-    html.H2('Race of the sorting algorithms'),
-    html.Div([
-        html.H5('Bubble sort'),
-        html.Div([
-            html.Div([
-                html.P('Number of iterations: ')
-            ], className='six columns'),
-            html.Div([
-                html.P(0, id='num_of_iter')
-            ], className='two columns'),
-        ], className='four columns'),
-        html.Div([
-            html.Div([
-                html.P('Number to sort: ')
-            ], className='six columns'),
-            html.Div([
-                html.P(y_values[0], id='sorted_value'),
-            ], className='two columns'),
-        ], className='four columns'),
-        html.Div([
-            html.Div([
-                html.P('Index to sort: ')
-            ], className='six columns'),
-            html.Div([
-                html.Div(0, id='index'),
-            ], className='two columns'),
-        ], className='four columns'),
-        html.Div([
-            html.Div([
-                html.P('Index already sorted: ')
-            ], className='six columns'),
-            html.Div([
-                html.Div(0, id='index_sorted'),
-            ], className='two columns'),
-        ], className='four columns'),
-    ], className='elven columns'),
-    html.Div([
-        dcc.Graph(id='graph', figure=fig, config={'displayModeBar': False}),
-        dcc.Interval(
-            id='interval-component',
-            interval=1 * 1000,  # in milliseconds
-            n_intervals=0
-        ),
-    ], className='elven columns'),
-    html.Div([
-        html.H5('Quick sort')
-    ], className='elven columns'),
+    html.H2('Sorting algorithms'),
+    dbc.Card([
+        dbc.CardHeader(html.H5('Bubble sort'), style={'textAlign': 'center'}),
+        dbc.CardBody(html.Div([
+            dcc.Graph(id='graph', figure=fig, config={'displayModeBar': False}),
+            dcc.Interval(
+                id='interval-component',
+                interval=1 * 1000,  # in milliseconds
+                n_intervals=0
+            ),
+        ])),
+        dbc.CardFooter([
+            dbc.Row([
+                dbc.Col([
+                    dbc.Row([
+                        dbc.Col(html.P('Number of iterations: ')),
+                        dbc.Col(html.P(0, id='num_of_iter'))
+                    ])
+                ]),
+                dbc.Col([
+                    dbc.Row([
+                        dbc.Col(html.P('Number to sort: ')),
+                        dbc.Col(html.P(y_values[0], id='sorted_value'))
+                    ])
+                ]),
+                dbc.Col([
+                    dbc.Row([
+                        dbc.Col(html.P('Index to sort: ')),
+                        dbc.Col(html.Div(0, id='index')),
+                    ])
+                ]),
+                dbc.Col([
+                    dbc.Row([
+                        dbc.Col(html.P('Index already sorted: ')),
+                        dbc.Col(html.Div(0, id='index_sorted')),
+                    ])
+                ]),
+            ])
+        ])
+    ], outline=True, color='red')
 ])
 
 @app.callback([Output('num_of_iter', 'children'),
@@ -102,4 +96,4 @@ def update_metrics(_, graph_figure, index_children, num_of_iter_children, index_
     return num_of_iter_children, graph_figure, graph_figure['data'][0]['y'][index_children], index_children, index_sorted_children
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server(debug=True, port=8050)
