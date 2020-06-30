@@ -8,7 +8,7 @@ import flask
 from dash.dependencies import Input, Output, State
 from plotly.subplots import make_subplots
 
-external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+external_stylesheets = ['./assets/stlesheet.css', './assets/bootstrap.css']
 
 app = dash.Dash(
     __name__,
