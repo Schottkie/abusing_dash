@@ -14,7 +14,6 @@ app = dash.Dash(
     __name__,
     external_stylesheets=external_stylesheets
 )
-application = app.server
 
 fig = go.Figure(go.Indicator(
     mode="gauge+number",
@@ -185,4 +184,4 @@ def accelarate(gas_n_timestamp, break_n_timestamp, _, tachometer_figure,
     return tachometer_figure, trigger, stats_figure
 
 if __name__ == '__main__':
-    application.run(debug=True)
+    app.run_server(debug=True, port=8050)
